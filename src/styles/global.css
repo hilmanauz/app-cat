@@ -1,0 +1,32 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: "Poppins", sans-serif;
+}
+
+img.cat-image {
+    image-rendering: crisp-edges;
+    /* Safari seems to support, but seems deprecated and does the same thing as the others. */
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.property {
+    height: 300px;
+    width: 482.1px;
+    border-radius: 100%;
+    border: 250px solid #ffd86c;
+    position: absolute;
+    z-index: 0;
+}
+
+.property__top-left {
+    top: -400px;
+    left: -500px;
+}
+
+.property__bottom-right {
+    bottom: -450px;
+    right: -500px;
+}
