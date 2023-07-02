@@ -40,7 +40,7 @@ const SearchBreeds = ({
     setCatSearch: Dispatch<
         SetStateAction<{
             search: string;
-            value: Array<Record<string, any>>;
+            value: Array<CatProps>;
         }>
     >;
     page: number;
@@ -116,7 +116,7 @@ function CatsList() {
     const [cats, setCats] = React.useState([]);
     const [catSearch, setCatSearch] = React.useState<{
         search: string;
-        value: Array<Record<string, any>>;
+        value: Array<CatProps>;
     }>({
         search: "",
         value: [],
@@ -142,41 +142,42 @@ function CatsList() {
         if (!breeds) return;
         setFuse(new Fuse(breeds, options));
     }, [breeds]);
+    const fetchAPI = async (
+        mainData: Array<CatProps>,
+        sliceData: Array<CatProps>,
+        setSliceData: React.Dispatch<React.SetStateAction<Array<CatProps>>>,
+        page: number,
+    ) => {
+        if (mainData.length === sliceData.length) return;
+        const slices = mainData?.slice(page * 10, page * 10 + 10);
+        await Promise.all(
+            slices.map(async (item: CatProps) => {
+                const { data } = await axios.get(
+                    `https://api.thecatapi.com/v1/images/search?breed_ids=${item.id}&limit=10`,
+                );
+                item.images = data;
+            }),
+        );
+        setSliceData((data) => (page === 0 ? slices : [...data, ...slices]));
+    };
     const { isLoading: isCatsLoading } = useSWR(
         [breeds, page],
         async ([breeds, page]) => {
-            if (breeds.length === cats.length) return;
-            const sliceData = breeds?.slice(page * 10, page * 10 + 10);
-            await Promise.all(
-                sliceData.map(async (item: CatProps) => {
-                    const { data } = await axios.get(
-                        `https://api.thecatapi.com/v1/images/search?breed_ids=${item.id}&limit=10`,
-                    );
-                    item.images = data;
-                }),
-            );
-            setCats((cats) =>
-                page === 0 ? sliceData : [...cats, ...sliceData],
-            );
+            await fetchAPI(breeds, cats, setCats, page);
         },
+        SWROptions,
     );
     const { isLoading: isSearchLoading } = useSWR(
-        [catSearch, cats, page],
-        async ([catSearch, cats, page]) => {
-            if (catSearch.value.length === catSearchData.length) return;
-            const sliceData = catSearch.value?.slice(page * 10, page * 10 + 10);
-            await Promise.all(
-                sliceData.map(async (item: CatProps) => {
-                    const { data } = await axios.get(
-                        `https://api.thecatapi.com/v1/images/search?breed_ids=${item.id}&limit=10`,
-                    );
-                    item.images = data;
-                }),
-            );
-            setCatSearchData((cats) =>
-                page === 0 ? sliceData : [...cats, ...sliceData],
+        [catSearch, page],
+        async ([catSearch, page]) => {
+            await fetchAPI(
+                catSearch.value,
+                catSearchData,
+                setCatSearchData,
+                page,
             );
         },
+        SWROptions,
     );
     const theme = useTheme();
     const lg = useMediaQuery(theme.breakpoints.up("lg"));
