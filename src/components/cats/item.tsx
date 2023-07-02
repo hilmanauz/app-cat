@@ -215,70 +215,78 @@ function CatItem({ item }: { item: CatProps }) {
                         </Typography>
                         <Box height={15} />
                         <Box display={"flex"}>
-                            <Avatar
-                                alt="wiki-url"
-                                src="/wiki-logo.png"
-                                style={{
-                                    marginRight: "10px",
-                                    cursor: "pointer",
-                                }}
-                                onClick={() => {
-                                    window.open(
-                                        item.wikipedia_url,
-                                        "_blank",
-                                        "noreferrer",
-                                    );
-                                }}
-                            />
-                            <Avatar
-                                alt="vestreet-url"
-                                src="/vestreet-logo.jpg"
-                                style={{
-                                    marginRight: "10px",
-                                    cursor: "pointer",
-                                }}
-                                variant="rounded"
-                                onClick={() => {
-                                    window.open(
-                                        item.vetstreet_url,
-                                        "_blank",
-                                        "noreferrer",
-                                    );
-                                }}
-                            />
-                            <Avatar
-                                alt="cfa-url"
-                                src="/cfa-logo.jpg"
-                                style={{
-                                    marginRight: "10px",
-                                    outline: "1px solid gray",
-                                    cursor: "pointer",
-                                }}
-                                variant="rounded"
-                                onClick={() => {
-                                    window.open(
-                                        item.cfa_url,
-                                        "_blank",
-                                        "noreferrer",
-                                    );
-                                }}
-                            />
-                            <Avatar
-                                alt="vca-url"
-                                src="/VCA-logo.png"
-                                style={{
-                                    outline: "1px solid gray",
-                                    cursor: "pointer",
-                                }}
-                                variant="rounded"
-                                onClick={() => {
-                                    window.open(
-                                        item.vcahospitals_url,
-                                        "_blank",
-                                        "noreferrer",
-                                    );
-                                }}
-                            />
+                            {item.wikipedia_url && (
+                                <Avatar
+                                    alt="wiki-url"
+                                    src="/wiki-logo.png"
+                                    style={{
+                                        marginRight: "10px",
+                                        cursor: "pointer",
+                                    }}
+                                    onClick={() => {
+                                        window.open(
+                                            item.wikipedia_url,
+                                            "_blank",
+                                            "noreferrer",
+                                        );
+                                    }}
+                                />
+                            )}
+                            {item.vetstreet_url && (
+                                <Avatar
+                                    alt="vestreet-url"
+                                    src="/vestreet-logo.jpg"
+                                    style={{
+                                        marginRight: "10px",
+                                        cursor: "pointer",
+                                    }}
+                                    variant="rounded"
+                                    onClick={() => {
+                                        window.open(
+                                            item.vetstreet_url,
+                                            "_blank",
+                                            "noreferrer",
+                                        );
+                                    }}
+                                />
+                            )}
+                            {item.cfa_url && (
+                                <Avatar
+                                    alt="cfa-url"
+                                    src="/cfa-logo.jpg"
+                                    style={{
+                                        marginRight: "10px",
+                                        outline: "1px solid gray",
+                                        cursor: "pointer",
+                                    }}
+                                    variant="rounded"
+                                    onClick={() => {
+                                        window.open(
+                                            item.cfa_url,
+                                            "_blank",
+                                            "noreferrer",
+                                        );
+                                    }}
+                                />
+                            )}
+                            {item.vcahospitals_url && (
+                                <Avatar
+                                    alt="vca-url"
+                                    src="/VCA-logo.png"
+                                    style={{
+                                        outline: "1px solid gray",
+                                        cursor: "pointer",
+                                    }}
+                                    variant="rounded"
+                                    onClick={() => {
+                                        window.open(
+                                            item.vcahospitals_url,
+                                            "_blank",
+                                            "noreferrer",
+                                        );
+                                    }}
+                                />
+                            )}
                             <ExpandMoreComp
                                 expand={expanded}
                                 onClick={handleExpandClick}
